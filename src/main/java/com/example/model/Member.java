@@ -33,4 +33,9 @@ public class Member {
 		this.pwd = pwd;
 	}
 
+	@Override
+	public String toString() {
+		return "Member [oid=" + oid + ", account=" + account + ", pwd=" + pwd + "]";
+	}
+
 }
