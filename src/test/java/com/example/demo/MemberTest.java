@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.example.model.Member;
 import com.example.service.MemberService;
 
-@SpringBootTest // 加這個註解會讓程式啟動，DI service，測試程式才能拿到service
+@SpringBootTest // 加這個註解會讓程式啟動後，DI service，測試程式才能拿到service
 public class MemberTest {
 
 	@Autowired

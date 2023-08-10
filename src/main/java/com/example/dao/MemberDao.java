@@ -9,20 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Repository;
 
 import com.example.model.Member;
 
 @Repository
 public class MemberDao {
-	static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
-	static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:XE";
-	static final String USER = "oracle";
-	static final String PASS = "oracle";
 
+	// 呼叫application.properties的方式，DI
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private Environment env;
 
 	public void addMember(Member member) {
 		Connection conn = null;
@@ -30,7 +27,8 @@ public class MemberDao {
 
 		System.out.println("EXCUTE INSERT MEMBER");
 		try {
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			conn = DriverManager.getConnection(env.getProperty("spring.datasource.url"),
+					env.getProperty("spring.datasource.user"), env.getProperty("spring.datasource.pwd"));
 			String sql = "INSERT INTO member(OID, ACCOUNT, PWD) VALUES (?,?,?)";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, member.getOid());
@@ -52,7 +50,8 @@ public class MemberDao {
 
 		System.out.println("EXCUTE queryMember");
 		try {
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			conn = DriverManager.getConnection(env.getProperty("spring.datasource.url"),
+					env.getProperty("spring.datasource.user"), env.getProperty("spring.datasource.pwd"));
 			String sql = "SELECT * FROM member WHERE OID = ?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, id);
