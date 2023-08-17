@@ -9,7 +9,7 @@ public class StockDaoImpl implements StockDao {
 
 	@Override
 	public void save(String key, String string, Object object) {
-		// TODO Auto-generated method stub
+		// TODO 存入資料庫
 
 	}
 

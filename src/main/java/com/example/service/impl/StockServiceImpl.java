@@ -35,12 +35,6 @@ public class StockServiceImpl implements StockService {
 	private final String STOCK_CODE_LIST_WEB = "https://isin.twse.com.tw/isin/C_public.jsp?strMode=2";
 
 	@Override
-	public void save(String key, String name, Object data) {
-		// TODO 拆解資料
-
-	}
-
-	@Override
 	public Map<String, String> getCompanyMap(ArrayList<String> arrayList) {
 		// 本國上市證券有價證券代號及名稱一覽表
 		String responseBody = executeGetRequest(STOCK_CODE_LIST_WEB);
@@ -175,16 +169,19 @@ public class StockServiceImpl implements StockService {
 	}
 
 	@Override
-	public void getStockInfo(Map<String, String> map) {
-		// 印出Json
+	public ArrayList<Map<String, Object>> getStockInfo(Map<String, String> map) {
+		ArrayList<Map<String, Object>> stockInfo = new ArrayList<>();
+
 		for (String key : map.keySet()) {
-			System.out.println(key + " " + map.get(key) + " " + executeGetRequest2Json(
-					"https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date=20230801&stockNo=" + key)
-					.get("data"));
-//					stockDao.save(key, map.get(key), executeGetRequest2Json(
-//							"https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date=20230801&stockNo=" + key)
-//							.get("data"));
+			stockInfo.add(executeGetRequest2Json(
+					"https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date=20230801&stockNo=" + key));
 		}
+		return stockInfo;
+	}
+
+	@Override
+	public void save(String key, String name, Object data) {
+		// TODO 拆解資料
 
 	}
 }
